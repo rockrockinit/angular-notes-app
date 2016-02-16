@@ -1,0 +1,26 @@
+{
+  "name": "angular-notes-app",
+  "homepage": "https://github.com/rockrockinit/angular-notes-app",
+  "description": "A web-based notes application built with AngularJS & Firebase",
+  "main": "",
+  "moduleType": [],
+  "authors": [
+    "Ed Rodriguez"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "^1.5.0",
+    "moment": "2.11.2",
+    "jquery": "1.12.0",
+    "bootstrap": "3.2.0",
+    "underscore": "1.8.3",
+    "html5shiv": "3.7.0",
+    "respond": "1.4.2",
+    "font-awesome": "4.5.0",
+    "crypto-js": "CryptoJS#^3.1.12",
+    "angular-route": "1.5.0",
+    "firebase": "2.2.1",
+    "angular-contenteditable": "^0.3.8"
+  }
+}
