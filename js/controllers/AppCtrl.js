@@ -27,7 +27,8 @@ app.controller('AppCtrl', [
     };
     
     $scope.add = function(){
-      $log.warn('add() - Under Construction');
+      $app.add();
+      $mdSidenav('left').close();
     };
     
     $scope.toggleLeft = buildDelayedToggler('left');

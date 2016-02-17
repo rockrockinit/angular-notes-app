@@ -2,7 +2,7 @@
   <md-content layout="column" layout-align="top" layout-padding ng-model="note" ng-show="note" class="main">
     <input type="hidden" ng-model="note.id" />
     
-    <div layout="row" layout-align="start top">
+    <div layout="row" layout-align="start top" style="padding:0px;">
       <div flex>
         <input id="note-name" ng-model="note.name" ng-keyup="update()" placeholder="Note Name" />
       </div>
@@ -16,13 +16,11 @@
       </div>
     </div>
     
-    <md-divider></md-divider>
+    <md-divider class="pad-bottom"></md-divider>
     
-    <div id="updated" ng-show="note.updated">
+    <span id="updated" ng-show="note.updated" class="pad-none" style="padding-bottom:20px;">
       {{formatDate(note.updated, 'M/D/YY h:mma')}}
-    </div>
-    
-    <br />
+    </span>
     
     <div id="note"
       placeholder="..."
@@ -31,7 +29,9 @@
       ng-keyup="update()"
       strip-br="false"
       strip-tags="true"
-      select-non-editable="true">
+      select-non-editable="true"
+      class="pad-bottom"
+      ng-class="{highlight: isEmpty(note.note)}">
     </div>
   </md-content>
 </div>

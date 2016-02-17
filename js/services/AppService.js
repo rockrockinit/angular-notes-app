@@ -143,6 +143,7 @@ app.service('AppService', [
     this.add = function(){
       this.note = {};
       this.save();
+      $rootScope.$emit('load', this.notes, this.note);
     };
 
     /**
@@ -164,6 +165,7 @@ app.service('AppService', [
      */
     this.show = function(note){
       this.note = note;
+      this.save();
       $rootScope.$emit('load', this.notes, this.note);
     };
     

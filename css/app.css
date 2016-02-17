@@ -3,6 +3,27 @@
   font-size: 22px;
   border: none;
   width: 100%;
+  padding: 0px;
+  color: #0072C6;
+}
+
+.highlight{
+  background: #F5F5F5;
+  outline: 1px dashed #BBB;
+  min-height: 300px;
+}
+
+#updated{
+  font-style: italic;
+  color: #7EC61D;
+}
+
+.pad-none{
+  padding: 0px;
+}
+
+.pad-bottom{
+  padding: 0px 0px 10px 0px;
 }
 
 .leftnav,
@@ -32,6 +53,6 @@
 
 .leftnav md-content .md-button.selected,
 .rightnav md-content .md-button.selected{
-  background: #dfed64;
-  color: #222;
+  background: #caf099;
+  color: #777;
 }
