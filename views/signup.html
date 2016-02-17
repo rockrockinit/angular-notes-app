@@ -7,14 +7,14 @@
           <md-icon>
             <ng-md-icon icon="email"></ng-md-icon>
           </md-icon>
-          <input ng-model="email" type="email" placeholder="Email" ng-required="true" />
+          <input ng-model="email" type="email" placeholder="Email Address" ng-required="true" ng-keyup="signup($event)" />
         </md-input-container>
         
         <md-input-container class="md-block">
           <md-icon>
             <ng-md-icon icon="lock_outline"></ng-md-icon>
           </md-icon>
-          <input ng-model="password" type="password" placeholder="Password" ng-required="true" />
+          <input ng-model="password" type="password" placeholder="Password" ng-required="true" ng-keyup="signup($event)" />
         </md-input-container>
     
         <md-button class="md-raised md-primary" ng-click="signup($event)">Sign Up</md-button>&nbsp;&nbsp;

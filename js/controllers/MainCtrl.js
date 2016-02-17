@@ -44,6 +44,7 @@ pages.controller('MainCtrl', [
     };
     
     $scope.isEmpty = function(val){
+      val = val || '';
       val = val.replace(/\<br\s*\/?\>/gi, '').trim();
       return val === '';
     };
