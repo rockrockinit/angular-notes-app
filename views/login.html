@@ -1,32 +1,27 @@
-<div class="login">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
+<div class="login" layout-padding>
+  <md-content class="autoScroll">
+    <div layout="row">
+      <div flex="66">
         
-        <div class="form">
-          <h1 class="center">Log in to Notes...</h1>
-          
-          <table>
-            <tr>
-              <td><label for="login-email">Email</label></td>
-              <td><input type="text" id="login-email" name="email" class="form-control" placeholder="Email" /></td>
-            </tr>
-            <tr>
-              <td><label for="login-email">Password</label></td>
-              <td><input type="password" id="login-password" name="password" class="form-control" placeholder="Password" /></td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>
-                <button type="button" class="btn btn-md btn-primary">Log In</button>&nbsp;&nbsp;
-                <a href="#/signup">Sign Up</a>
-              </td>
-            </tr>
-          </table>
-          
-        </div>
+        <md-input-container class="md-block">
+          <md-icon>
+            <ng-md-icon icon="email"></ng-md-icon>
+          </md-icon>
+          <input ng-model="email" type="email" placeholder="Email" ng-required="true" />
+        </md-input-container>
         
+        <md-input-container class="md-block">
+          <md-icon>
+            <ng-md-icon icon="lock_outline"></ng-md-icon>
+          </md-icon>
+          <input ng-model="password" type="password" placeholder="Password" ng-required="true" />
+        </md-input-container>
+    
+        <md-button class="md-raised md-primary" ng-click="login($event)">Log In</md-button>&nbsp;&nbsp;
+        <a href="#/signup">Sign Up</a>
       </div>
+      <div flex></div>
     </div>
-  </div>
+    
+  </md-content>
 </div>

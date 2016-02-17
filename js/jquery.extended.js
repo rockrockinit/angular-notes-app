@@ -23,7 +23,7 @@
 		msie: /msie/.test(userAgent) && !/opera/.test(userAgent),
 		mozilla: /mozilla/.test(userAgent) && !/(compatible|webkit)/.test(userAgent)
 	};
-    
+	
 	/**
 	 * Selects a range in form field elements.
 	 *
@@ -179,7 +179,7 @@
 	 * @param string method The name of the method to add a hook to.
 	 * @param method fn The function to call as a hook.
 	 */
-    $.hook = function(methods, fn){
+	$.hook = function(methods, fn){
 		methods = (typeof methods === 'string') ? methods.split(/,? +/) : methods;
 		methods = (methods instanceof Array) ? methods : [];
 		
@@ -197,7 +197,7 @@
 				}
 			}
 		}
-    };
+	};
 	
 	/**
 	 * Performs jsonp ajax requests.

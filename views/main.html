@@ -1,105 +1,37 @@
-<div class="main">
-    <!-- TOPNAV -->
-    <div class="row topnav">
-        <div class="col-xs-6">
-            <a title="Add Note" ng-click="add()"><span class="fa fa-plus fa-md"></span> Add Note</a>
-        </div>
-        <div class="col-xs-6 align-right">
-            <a href="#menu-toggle" class="btn btn-sm btn-primary" id="menu-toggle">
-                <span class="fa fa-bars fa-lg"></span>
-            </a>
-        </div>
+<div class="main" style="padding:15px 20px">
+  <md-content layout="column" layout-align="top" layout-padding ng-model="note" ng-show="note" class="main">
+    <input type="hidden" ng-model="note.id" />
+    
+    <div layout="row" layout-align="start top">
+      <div flex>
+        <input id="note-name" ng-model="note.name" ng-keyup="update()" placeholder="Note Name" />
+      </div>
+      
+      <div layout="row" layout-align="end">
+        <md-button ng-click="remove()" class="md-icon-button" aria-label="Delete">
+          <md-icon>
+            <ng-md-icon icon="delete"></ng-md-icon>
+          </md-icon>
+        </md-button>
+      </div>
     </div>
     
-    <div id="wrapper">
+    <md-divider></md-divider>
     
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="item" ng-repeat="note in notes | orderBy: '-updated'" ng-click="show(note)" ng-class="{active: isSelected(note)}">
-                    {{note.name}}
-                </li>
-            </ul>
-        </div>
-    
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-    
-                    <!-- RIGHT PANE -->
-                    <div class="col-xs-12 right-pane" ng-model="note" ng-show="note">
-                        <input type="hidden" ng-model="note.id" />
-    
-                        <div class="row">
-                            <div class="col-xs-10">
-                                <input id="name" type="text" ng-model="note.name" class="form-control" ng-keyup="update()" placeholder="Untitled Note" />
-                            </div>
-                            <div class="col-xs-2 actions">
-                                <a class="fa fa-trash-o fa-lg" title="Delete" ng-click="remove()"></a>
-                            </div>
-                        </div>
-    
-                        <hr class="divider" />
-    
-                        <div id="updated" ng-show="note.updated">
-                            {{formatDate(note.updated, 'M/D/YY h:mma')}}
-                        </div>
-    
-                        <div id="note"
-                            placeholder="..."
-                            contenteditable="true"
-                            ng-model="note.note"
-                            ng-keyup="update()"
-                            strip-br="false"
-                            strip-tags="true"
-                            select-non-editable="true"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="updated" ng-show="note.updated">
+      {{formatDate(note.updated, 'M/D/YY h:mma')}}
     </div>
     
-    <!-- Modals -->
-    <div class="modal fade" id="modal-confirm" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-yes">Yes</button>
-                    <button type="button" class="btn btn-default btn-no" data-dismiss="modal">No</button>
-                </div>
-            </div>
-        </div>
+    <br />
+    
+    <div id="note"
+      placeholder="..."
+      contenteditable="true"
+      ng-model="note.note"
+      ng-keyup="update()"
+      strip-br="false"
+      strip-tags="true"
+      select-non-editable="true">
     </div>
-    
-    <div class="modal fade" id="modal-login" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Log in to Notes</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="login-email">Email</label>
-                        <input type="text" name="email" class="form-control" />
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="login-email">Password</label>
-                        <input type="password" name="password" class="form-control" />
-                    </div>
-    
-                    <p class="center">
-                        <button type="button" class="btn btn-primary">Log In</button>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
+  </md-content>
 </div>
