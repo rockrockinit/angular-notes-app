@@ -8,9 +8,13 @@ pages.controller('LoginCtrl', [
   '$scope',
   '$location',
   '$mdDialog',
+  '$log',
+  'AppService',
   'fb',
-  function($scope, $location, $mdDialog, fb){
-    console.log('LoginCtrl');
+  function($scope, $location, $mdDialog, $log, $app, fb){
+    $log.info('LoginCtrl');
+    
+    $app.setTitle('Log in to Notes');
     
     $scope.email = '';
     $scope.password = '';
@@ -47,7 +51,7 @@ pages.controller('LoginCtrl', [
           $btn.prop('disabled', false);
   
           if(error){
-            console.log('Log In Failed!', error);
+            $log.warn('Log In Failed!', error);
             
             var errors = [];
             errors.push(error.toString().replace(/^Error:/, '').trim());
@@ -61,8 +65,7 @@ pages.controller('LoginCtrl', [
               controller: ErrorDialog
             });
           }else{
-            console.log('Log In Success!', auth);
-            $scope.$apply(function() {
+            $scope.$apply(function(){
               $location.path('/');
             });
           }

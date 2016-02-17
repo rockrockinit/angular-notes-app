@@ -8,9 +8,15 @@ pages.controller('MainCtrl', [
   '$scope',
   '$location',
   '$rootScope',
+  '$log',
   'AppService',
-  function($scope, $location, $rootScope, $app){
-    console.log('MainCtrl');
+  function($scope, $location, $rootScope, $log, $app){
+    $log.info('MainCtrl');
+    
+    $app.setTitle('Notes');
+    
+    $scope.notes = [];
+    $scope.note = {};
     
      /**
     * Formats a mysql date
@@ -45,11 +51,6 @@ pages.controller('MainCtrl', [
       $scope.note = note;
     });
     
-    // Check Authorization
-    if(!$app.auth){
-      $location.path('/login');
-    }else{
-      $app.init();
-    }
+    $app.init();
   }
 ]);

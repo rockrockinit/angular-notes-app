@@ -10,7 +10,26 @@ app.controller('AppCtrl', [
   '$mdSidenav',
   '$log',
   '$rootScope',
-  function($scope, $timeout, $mdSidenav, $log, $rootScope){
+  'AppService',
+  function($scope, $timeout, $mdSidenav, $log, $rootScope, $app){
+    $log.info('AppCtrl');
+    
+    // Watch for Application title changes
+    $scope.app = $app;
+    $scope.title = $app.title;
+    $scope.$watch('app.getTitle()', function(title){
+      console.log(title);
+      $scope.title = title;
+    });
+    
+    $scope.auth = function(){
+      return $app.getAuth();
+    };
+    
+    $scope.add = function(){
+      $log.warn('add() - Under Construction');
+    };
+    
     $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
     $scope.isOpenRight = function () {

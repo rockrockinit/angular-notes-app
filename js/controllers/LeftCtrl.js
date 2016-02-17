@@ -12,7 +12,10 @@ app.controller('LeftCtrl', [
   '$rootScope',
   'AppService',
   function($scope, $timeout, $log, $mdSidenav, $rootScope, $app){
+    $log.info('LeftCtrl');
+    
     $scope.notes = [];
+    $scope.note = {};
     
     /**
      * Checks if a note is selected
@@ -23,10 +26,6 @@ app.controller('LeftCtrl', [
     $scope.isSelected = function(note){
       return (note && note.id) ? $scope.note.id === note.id : 0;
     };
-    
-    $scope.$on('listNotes', function(event, args){
-      console.log('listNotes');
-    });
      
     $scope.close = function(){
       $mdSidenav('left').close();
@@ -34,7 +33,10 @@ app.controller('LeftCtrl', [
     
     $scope.show = function(note){
       $app.show(note);
+      $mdSidenav('left').close();
     };
+    
+    $scope.auth = $app.getAuth;
     
     /**
      * Load a note

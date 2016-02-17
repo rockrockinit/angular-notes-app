@@ -8,17 +8,19 @@ pages.controller('SignupCtrl', [
   '$scope',
   '$location',
   '$mdDialog',
+  '$log',
+  'AppService',
   'fb',
-  function($scope, $location, $mdDialog, fb){
-    console.log('SignupCtrl');
+  function($scope, $location, $mdDialog, $log, $app, fb){
+    $log.info('SignupCtrl');
+    
+    $app.setTitle('Sign up for Notes');
     
     $scope.email = '';
     $scope.password = '';
     
     $scope.signup = function(){
       var errors = [];
-      
-      console.log('Sign Up!');
       
       if(!$scope.email){
         errors.push('Email is required');
@@ -46,7 +48,7 @@ pages.controller('SignupCtrl', [
           password: $scope.password
         }, function(error, auth){
           if(error){
-            console.log('Sign Up Failed', error);
+            $log.warn('Sign Up Failed', error);
             
             var errors = [];
             errors.push(error.toString().replace(/^Error:/, '').trim());
@@ -60,7 +62,7 @@ pages.controller('SignupCtrl', [
               controller: ErrorDialog
             });
           }else{
-            console.log('Sign Up Success!', auth);
+            $log.info('Sign Up Success!', auth);
             
             // Log In
             fb.authWithPassword({
@@ -70,7 +72,7 @@ pages.controller('SignupCtrl', [
               $btn.prop('disabled', false);
       
               if(error){
-                console.log('Log In Failed', error);
+                $log.warn('Log In Failed', error);
                 
                 var errors = [];
                 errors.push(error.toString().replace(/^Error:/, '').trim());
@@ -84,7 +86,6 @@ pages.controller('SignupCtrl', [
                   controller: ErrorDialog
                 });
               }else{
-                console.log('Log In Success!', auth);
                 $scope.$apply(function() {
                   $location.path('/');
                 });

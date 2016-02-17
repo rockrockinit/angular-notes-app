@@ -1,13 +1,13 @@
 <div class="login" layout-padding>
   <md-content class="autoScroll">
     <div layout="row">
-      <div flex="66">
+      <div flex>
         
         <md-input-container class="md-block">
           <md-icon>
             <ng-md-icon icon="email"></ng-md-icon>
           </md-icon>
-          <input ng-model="email" type="email" placeholder="Email" ng-required="true" />
+          <input ng-model="email" type="email" placeholder="Email Address" ng-required="true" />
         </md-input-container>
         
         <md-input-container class="md-block">
@@ -20,7 +20,6 @@
         <md-button class="md-raised md-primary" ng-click="login($event)">Log In</md-button>&nbsp;&nbsp;
         <a href="#/signup">Sign Up</a>
       </div>
-      <div flex></div>
     </div>
     
   </md-content>

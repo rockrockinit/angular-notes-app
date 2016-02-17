@@ -1,7 +1,8 @@
 app.service('AppService', [
   '$rootScope',
+  '$log',
   'fb',
-  function($rootScope, fb){
+  function($rootScope, $log, fb){
     
     // @var object config The default app config
     this.config = {
@@ -10,12 +11,41 @@ app.service('AppService', [
       updated: Date.now()
     };
     
+    this.title = 'Notes';
+    this.auth = 0;
     this.once = 0;
     this.reloading = 0;
     this.timeout = undefined;
     this.snapshot = undefined;
     this.userRef = undefined;
-    this.auth = fb.getAuth();
+    
+    this.getAuth = function(){
+      return this.auth;
+    }
+    
+    this.setTitle = function(title){
+      this.title = title;
+    };
+    
+    this.getTitle = function(){
+      return this.title;
+    };
+    
+    this.logout = function(){
+      this.title = 'Notes';
+      this.auth = 0;
+      this.once = 0;
+      this.reloading = 0;
+      this.timeout = undefined;
+      this.snapshot = undefined;
+      this.userRef = undefined;
+      this.auth = undefined;
+      this.notes = [];
+      this.note = {};
+      $rootScope.$emit('load', this.notes, this.note);
+      
+      fb.unauth();
+    };
     
     /**
      * Creates a key by converting a uid to md5
@@ -53,7 +83,7 @@ app.service('AppService', [
      * @param string msg The event message
      */
     this.process = function(snapshot, msg){
-      console.log(msg);
+      $log.info(msg);
       this.snapshot = snapshot;
 
       if(0 && !this.reloading){
@@ -229,17 +259,16 @@ app.service('AppService', [
     this.init = function(snapshot){
       var $app = this;
       
+      if(!this.auth){
+        this.auth = fb.getAuth();
+      }
+      
       if(!$app.once){
-        
-        console.log('Auth: ', $app.auth);
-        
         $app.userRef = fb.child($app.key());
-        
-        console.log('userRef: ', $app.userRef);
         
         // Firebase Events
         $app.userRef.on('child_added', function(snapshot){
-          console.log('Firebase Added');
+          $log.info('Firebase Added');
 
           if(!$app.once){
             $app.once = 1;
@@ -311,8 +340,6 @@ app.service('AppService', [
       }
       
       $rootScope.$emit('load', this.notes, this.note);
-      
-      console.log(this);
     };
     
   }
