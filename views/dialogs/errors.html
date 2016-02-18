@@ -1,0 +1,15 @@
+<md-dialog class="dialog-errors" aria-label="Errors">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2><span>{{title}}</span></h2>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <ul>
+      <li ng-repeat="error in errors">{{error}}</li>
+    </ul>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="closeDialog()" class="md-primary">OK</md-button>
+  </md-dialog-actions>
+</md-dialog>

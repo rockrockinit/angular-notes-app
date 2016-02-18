@@ -40,7 +40,7 @@ pages.controller('SignupCtrl', [
         if(errors.length){
           
           $mdDialog.show({
-            template: dialogs.error,
+            templateUrl: 'views/dialogs/errors.html',
             locals: {
               title: 'Sign Up Error',
               errors: errors
@@ -49,55 +49,69 @@ pages.controller('SignupCtrl', [
           });
           
         }else{
+          
           var $btn = $(e.currentTarget);
           $btn.prop('disabled', false);
           
-          // Sign Up
-          fb.createUser({
-            email: $scope.email,
-            password: $scope.password
-          }, function(error, auth){
-            if(error){
-              $log.warn('Sign Up Failed', error);
+          $mdDialog.show({
+            templateUrl: 'views/dialogs/loading.html',
+            locals: {
+              title: 'Signing Up...'
+            },
+            controller: LoadingDialog,
+            onComplete: function(){
               
-              var errors = [];
-              errors.push(error.toString().replace(/^Error:/, '').trim());
-              
-              $mdDialog.show({
-                template: dialogs.error,
-                locals: {
-                  title: 'Sign Up Failed',
-                  errors: errors
-                },
-                controller: ErrorDialog
-              });
-            }else{
-              $log.info('Sign Up Success!', auth);
-              
-              // Log In
-              fb.authWithPassword({
-                'email': $scope.email,
-                'password': $scope.password
+              // Sign Up
+              fb.createUser({
+                email: $scope.email,
+                password: $scope.password
               }, function(error, auth){
-                $btn.prop('disabled', false);
-        
                 if(error){
-                  $log.warn('Log In Failed', error);
+                  $log.warn('Sign Up Failed', error);
+                  $btn.prop('disabled', false);
                   
                   var errors = [];
                   errors.push(error.toString().replace(/^Error:/, '').trim());
                   
                   $mdDialog.show({
-                    template: dialogs.error,
+                    templateUrl: 'views/dialogs/errors.html',
                     locals: {
-                      title: 'Log In Failed',
+                      title: 'Sign Up Failed',
                       errors: errors
                     },
                     controller: ErrorDialog
                   });
                 }else{
-                  $scope.$apply(function() {
-                    $location.path('/');
+                  $log.info('Sign Up Success!', auth);
+                  
+                  // Log In
+                  fb.authWithPassword({
+                    'email': $scope.email,
+                    'password': $scope.password
+                  }, function(error, auth){
+                    $btn.prop('disabled', false);
+                    
+                    if(error){
+                      $log.warn('Log In Failed', error);
+                      
+                      var errors = [];
+                      errors.push(error.toString().replace(/^Error:/, '').trim());
+                      
+                      $mdDialog.show({
+                        templateUrl: 'views/dialogs/errors.html',
+                        locals: {
+                          title: 'Log In Failed',
+                          errors: errors
+                        },
+                        controller: ErrorDialog
+                      });
+                    }else{
+                      $mdDialog.hide();
+                      
+                      $scope.$apply(function() {
+                        $location.path('/');
+                      });
+                    }
                   });
                 }
               });
@@ -105,7 +119,7 @@ pages.controller('SignupCtrl', [
           });
         }
       }
-      
     };
+    
   }
 ]);

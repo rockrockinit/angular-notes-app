@@ -43,9 +43,11 @@ pages.controller('MainCtrl', [
       $app.remove(this.note);
     };
     
+    /**
+     * Determines if a note's value is empty
+     */
     $scope.isEmpty = function(val){
-      val = val || '';
-      val = val.replace(/\<br\s*\/?\>/gi, '').trim();
+      val = (val) ? val.replace(/\<br\s*\/?\>/gi, '').trim() : '';
       return val === '';
     };
     

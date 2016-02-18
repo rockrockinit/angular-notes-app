@@ -1,3 +1,24 @@
+md-dialog{
+  min-width: 290px;
+}
+
+md-dialog md-dialog-content{
+  padding: 25px 30px;
+}
+
+md-dialog md-dialog-content ul{
+  margin: 0px;
+  padding: 0px 0px 0px 10px;
+}
+
+md-dialog.dialog-loading md-dialog-content{
+  padding: 35px 30px;
+}
+
+.center{
+  text-align: center;
+}
+
 #note-name{
   margin-top: 5px;
   font-size: 22px;

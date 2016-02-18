@@ -39,7 +39,7 @@ pages.controller('LoginCtrl', [
         
         if(errors.length){
           $mdDialog.show({
-            template: dialogs.error,
+            templateUrl: 'views/dialogs/errors.html',
             locals: {
               title: 'Log In Error',
               errors: errors
@@ -47,39 +47,54 @@ pages.controller('LoginCtrl', [
             controller: ErrorDialog
           });
         }else{
+          
           var $btn = $(e.currentTarget);
           $btn.prop('disabled', false);
           
-          // Log In
-          fb.authWithPassword({
-            'email': $scope.email,
-            'password': $scope.password
-          }, function(error, auth){
-            $btn.prop('disabled', false);
-            
-            if(error){
-              $log.warn('Log In Failed!', error);
+          $mdDialog.show({
+            templateUrl: 'views/dialogs/loading.html',
+            locals: {
+              title: 'Logging In...'
+            },
+            controller: LoadingDialog,
+            onComplete: function(){
               
-              var errors = [];
-              errors.push(error.toString().replace(/^Error:/, '').trim());
+              // Log In
+              fb.authWithPassword({
+                'email': $scope.email,
+                'password': $scope.password
+              }, function(error, auth){
+                
+                $btn.prop('disabled', false);
+                
+                if(error){
+                  $log.warn('Log In Failed!', error);
+                  
+                  var errors = [];
+                  errors.push(error.toString().replace(/^Error:/, '').trim());
+                  
+                  $mdDialog.show({
+                    templateUrl: 'views/dialogs/errors.html',
+                    locals: {
+                      title: 'Log In Failed',
+                      errors: errors
+                    },
+                    controller: ErrorDialog
+                  });
+                }else{
+                  $mdDialog.hide();
+                  
+                  $scope.$apply(function(){
+                    $location.path('/');
+                  });
+                }
+              });
               
-              $mdDialog.show({
-                template: dialogs.error,
-                locals: {
-                  title: 'Log In Failed',
-                  errors: errors
-                },
-                controller: ErrorDialog
-              });
-            }else{
-              $scope.$apply(function(){
-                $location.path('/');
-              });
             }
           });
         }
       }
-      
     };
+    
   }
 ]);
