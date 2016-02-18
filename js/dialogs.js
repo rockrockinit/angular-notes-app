@@ -14,3 +14,22 @@ function LoadingDialog($scope, $mdDialog, title){
     $mdDialog.hide();
   }
 }
+
+function ConfirmDialog($scope, $mdDialog, $sce, params){
+  $scope.title = params.title || 'Confirm';
+  $scope.message = $sce.trustAsHtml(params.message || '');
+  
+  $scope.ok = function(){
+    if(typeof params.onOk === 'function'){
+      params.onOk.call($scope, params);
+    }
+    $mdDialog.hide();
+  }
+  
+  $scope.cancel = function(){
+    if(typeof params.onCancel === 'function'){
+      params.onCancel.call($scope, params);
+    }
+    $mdDialog.hide();
+  }
+}

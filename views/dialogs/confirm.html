@@ -1,0 +1,14 @@
+<md-dialog class="dialog-confirm" aria-label="Confirm">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2><span>{{title}}</span></h2>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <span ng-bind-html="message"></span>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="ok()">OK</md-button>
+    <md-button ng-click="cancel()">Cancel</md-button>
+  </md-dialog-actions>
+</md-dialog>

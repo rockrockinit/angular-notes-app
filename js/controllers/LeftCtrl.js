@@ -24,7 +24,7 @@ app.controller('LeftCtrl', [
      * @return boolean True if selected
      */
     $scope.isSelected = function(note){
-      return (note && note.id) ? $scope.note.id === note.id : 0;
+      return (note && $scope.note) ? note.id === $scope.note.id : 0;
     };
      
     $scope.close = function(){

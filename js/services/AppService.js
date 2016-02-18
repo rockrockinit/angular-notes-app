@@ -1,8 +1,9 @@
 app.service('AppService', [
   '$rootScope',
+  '$mdDialog',
   '$log',
   'fb',
-  function($rootScope, $log, fb){
+  function($rootScope, $mdDialog, $log, fb){
     
     // @var object config The default app config
     this.config = {
@@ -149,13 +150,36 @@ app.service('AppService', [
     /**
      * Removes a note
      *
-     * @param integer [id] The note id
+     * @param integer|object [id=this.note] The note id or object
      */
     this.remove = function(id){
-      id = id || this.note.id;
-      this.notes = _.without(this.notes, _.findWhere(this.notes, {id: id}));
-      this.note = undefined;
-      this.save();
+      if(typeof id === 'object' && id.id){
+        id = id.id;
+      }
+      
+      var note = (typeof id === 'number') ? _.findWhere(this.notes, {id: id}) : this.note;
+      
+      if(note){
+          var $app = this;
+          
+          $mdDialog.show({
+            templateUrl: 'views/dialogs/confirm.html',
+            locals: {
+              params: {
+                title: 'Delete Note?',
+                message: '<div class="center">You are about to delete the note named...<br /><br /><strong>'+note.name+'</strong></div>',
+                onOk: function(){
+                  $app.notes = _.without($app.notes, note);
+                  $app.note = undefined;
+                  $app.save();
+                  $rootScope.$emit('load', $app.notes, $app.note);
+                },
+                onCancel: function(){}
+              }
+            },
+            controller: ConfirmDialog
+          });
+      }
     };
 
     /**
