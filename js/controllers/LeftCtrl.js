@@ -36,6 +36,18 @@ app.controller('LeftCtrl', [
       $mdSidenav('left').close();
     };
     
+    $scope.hide = function(note){
+      var hide = false;
+      
+      if($scope.search){
+        var regexp = new RegExp($scope.search, 'gi');
+        
+        hide = !regexp.test(note.name);
+      }
+      
+      return hide;
+    };
+    
     $scope.auth = $app.getAuth;
     
     /**

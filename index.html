@@ -27,16 +27,14 @@
     <!-- leftnav -->
     <md-sidenav ng-show="auth()" class="leftnav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
       <md-toolbar class="md-theme-indigo">
-        <div class="md-toolbar-tools">
+        <div class="md-toolbar-tools" style="padding:0px 15px;">
+          <md-icon style="margin-right:10px">
+            <ng-md-icon icon="search"></ng-md-icon>
+          </md-icon>
           
-          <md-button ng-show="auth()" ng-click="add()">
-            <md-icon>
-              <ng-md-icon icon="note_add"></ng-md-icon>
-            </md-icon>&nbsp;
-            New Note
-          </md-button>
-          
-          <span flex></span>
+          <md-input-container class="md-block no-error search" md-no-float flex>
+            <input id="search" ng-model="search" type="text" placeholder="Search..." />
+          </md-input-container>
           
           <md-button ng-click="toggleLeft()" class="md-icon-button" aria-label="Close" hide-gt-md>
             <md-icon>
@@ -48,7 +46,7 @@
       
       <md-content ng-controller="LeftCtrl">
         <div layout="column">
-          <md-button class="md-primary" ng-repeat="note in notes | orderBy: '-updated'" ng-click="show(note)" aria-label="{{note.name}}" ng-class="{selected: isSelected(note)}">
+          <md-button class="md-primary" ng-repeat="note in notes | orderBy: '-updated'" ng-click="show(note)" aria-label="{{note.name}}" ng-class="{selected: isSelected(note), 'cms-hidden': hide(note)}">
             {{note.name}}
           </md-button>
         </div>
@@ -65,7 +63,16 @@
             <h2>
               <span>{{title}}</span>
             </h2>
+            
             <span flex></span>
+            
+            <md-button ng-show="auth()" ng-click="add()">
+              <md-icon>
+                <ng-md-icon icon="note_add"></ng-md-icon>
+              </md-icon>&nbsp;
+              New Note
+            </md-button>
+            
             <md-button ng-show="auth()" ng-click="toggleRight()" class="md-icon-button" aria-label="More">
               <md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>
             </md-button>

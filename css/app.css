@@ -15,6 +15,35 @@ md-dialog.dialog-loading md-dialog-content{
   padding: 35px 30px;
 }
 
+.cms-hidden{
+  display: none;
+}
+
+.search{
+  padding: 0px;
+  margin: 0px;
+}
+
+.search input,
+.search input:focus{
+  color: #FFF;
+  display: block;
+  border: 1px solid #A0D1FA !important;
+  border-color: #A0D1FA !important;
+  border-radius: 5px;
+  font-size: 12pt;
+  padding: 5px;
+  margin: 0px;
+}
+
+.no-error .md-errors-spacer{
+  display: none;
+}
+
+.leftnav md-content .pad{
+  padding: 0px;
+}
+
 .center{
   text-align: center;
 }
@@ -48,6 +77,7 @@ md-dialog.dialog-loading md-dialog-content{
 }
 
 .leftnav,
+.leftnav md-content,
 .rightnav{
    background: #e0efff;
 }
