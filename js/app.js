@@ -31,6 +31,10 @@ app.config([
         templateUrl: 'views/signup.html',
         controller: 'SignupCtrl'
       }).
+      when('/export', {
+        templateUrl: 'views/export.html',
+        controller: 'ExportCtrl'
+      }).
       otherwise({
         redirectTo: '/'
       });

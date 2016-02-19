@@ -69,8 +69,7 @@
             <md-button ng-show="auth()" ng-click="add()">
               <md-icon>
                 <ng-md-icon icon="note_add"></ng-md-icon>
-              </md-icon>&nbsp;
-              New Note
+              </md-icon> <span hide show-gt-xs>New </span>Note
             </md-button>
             
             <md-button ng-show="auth()" ng-click="toggleRight()" class="md-icon-button" aria-label="More">
@@ -106,6 +105,14 @@
             </md-icon>&nbsp;
             Log Out
           </md-button>
+          
+          <!-- <a href="export.html" class="md-button md-primary" download="notes.json"> -->
+          <a href="#/export" class="md-button md-primary" ng-click="close()">
+            <md-icon>
+              <ng-md-icon icon="file_download"></ng-md-icon>
+            </md-icon>&nbsp;
+            Export
+          </a>
         </div>
       </md-content>
     </md-sidenav>
@@ -143,6 +150,7 @@ Use of this source code is governed by an MIT-style license that can be in found
 <script src="js/controllers/MainCtrl.js"></script>
 <script src="js/controllers/LoginCtrl.js"></script>
 <script src="js/controllers/SignupCtrl.js"></script>
+<script src="js/controllers/ExportCtrl.js"></script>
 
 <script>
   if(/edrodriguez\.com$/i.test(location.host)){

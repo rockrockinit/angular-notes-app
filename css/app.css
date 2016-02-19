@@ -31,9 +31,26 @@ md-dialog.dialog-loading md-dialog-content{
   border: 1px solid #A0D1FA !important;
   border-color: #A0D1FA !important;
   border-radius: 5px;
-  font-size: 12pt;
-  padding: 5px;
+  font-size: 16px;
+  padding: 5px 7px;
   margin: 0px;
+}
+.search ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #FFF;
+}
+.search :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #FFF;
+   opacity:  1;
+}
+.search ::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #FFF;
+   opacity:  1;
+}
+.search :-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #FFF;
+}
+.search :placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
+  color:    #FFF;
 }
 
 .no-error .md-errors-spacer{
