@@ -17,7 +17,7 @@ pages.controller('ExportCtrl', [
     
     $app.setTitle('Export');
     
-    var notes = $.extend([], $app.notes);
+    var notes = JSON.parse(JSON.stringify($app.notes));
     
     for(var i=0; i<notes.length; i++){
       var str = notes[i].note;

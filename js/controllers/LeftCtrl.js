@@ -11,7 +11,8 @@ app.controller('LeftCtrl', [
   '$mdSidenav',
   '$rootScope',
   'AppService',
-  function($scope, $timeout, $log, $mdSidenav, $rootScope, $app){
+  '$location',
+  function($scope, $timeout, $log, $mdSidenav, $rootScope, $app, $location){
     $log.info('LeftCtrl');
     
     $scope.notes = [];
@@ -32,6 +33,10 @@ app.controller('LeftCtrl', [
     };
     
     $scope.show = function(note){
+      if(!/^\/$/.test($location.$$path)){
+        $location.path('/');
+      }
+      
       $app.show(note);
       $mdSidenav('left').close();
     };
