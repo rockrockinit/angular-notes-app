@@ -42,15 +42,13 @@ app.controller('LeftCtrl', [
     };
     
     $scope.hide = function(note){
-      var hide = false;
-      
       if($scope.search){
         var regexp = new RegExp($scope.search, 'gi');
         
-        hide = !regexp.test(note.name);
+        return !regexp.test(note.name);
       }
       
-      return hide;
+      return false;
     };
     
     $scope.auth = $app.getAuth;
