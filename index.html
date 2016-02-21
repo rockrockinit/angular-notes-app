@@ -21,7 +21,11 @@
   <link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
-<div id="notes-app" ng-app="NotesApp" ng-controller="AppCtrl" layout="column" style="height:100%;" ng-cloak="">
+<div id="loading" style="text-align:center;padding-top:50px">
+  <img src="img/loading.gif" width="134" height="100" />
+</div>
+
+<div id="notes-app" ng-app="NotesApp" ng-controller="AppCtrl" layout="column" style="height:100%;display:none;" ng-cloak="">
   <section layout="row" flex="">
     
     <!-- leftnav -->

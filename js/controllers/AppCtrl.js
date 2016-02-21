@@ -14,6 +14,11 @@ app.controller('AppCtrl', [
   function($scope, $timeout, $mdSidenav, $log, $rootScope, $app){
     $log.info('AppCtrl');
     
+    angular.element(document).ready(function (){
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('notes-app').style.display = 'block';
+    });
+    
     // Watch for Application title changes
     $scope.app = $app;
     $scope.title = $app.title;
