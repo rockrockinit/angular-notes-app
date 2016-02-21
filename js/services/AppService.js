@@ -2,8 +2,21 @@ app.service('AppService', [
   '$rootScope',
   '$mdDialog',
   '$log',
+  '$location',
   'fb',
-  function($rootScope, $mdDialog, $log, fb){
+  function($rootScope, $mdDialog, $log, $location, fb){
+    
+    // Initial Page Load Authorization
+    fb.onAuth(function(auth) {
+      if(auth){
+        $log.info('Logged In');
+      }else{
+        $log.warn('Logged Out!');
+        if(!/^\/signup\/?/.test($location.path())){
+          $location.path('/login');
+        }
+      }
+    });
     
     // @var object config The default app config
     this.config = {

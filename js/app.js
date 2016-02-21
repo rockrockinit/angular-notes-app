@@ -40,19 +40,6 @@ app.config([
       });
 }]);
 
-app.factory('fb', ['$location', '$log', function($location, $log){
-  var fb = new Firebase(firebase_url);
-  
-  $log.info('fb');
-  
-  fb.onAuth(function(auth) {
-    if(auth){
-      $log.info('Logged In');
-    }else{
-      $log.warn('Logged Out!');
-      $location.path('/login');
-    }
-  });
-
-  return fb;
+app.factory('fb', [function(){
+  return new Firebase(firebase_url);
 }]);
