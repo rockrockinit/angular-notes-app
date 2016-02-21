@@ -84,6 +84,8 @@ pages.controller('LoginCtrl', [
                 }else{
                   $mdDialog.hide();
                   
+                  $app.setAuth(auth);
+                  
                   $scope.$apply(function(){
                     $location.path('/');
                   });

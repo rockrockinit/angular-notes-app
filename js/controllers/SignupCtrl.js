@@ -14,6 +14,11 @@ pages.controller('SignupCtrl', [
   function($scope, $location, $mdDialog, $log, $app, fb){
     $log.info('SignupCtrl');
     
+    // Auto Login Redirect
+    if($app.getAuth()){
+      $location.path('/');
+    }
+    
     $app.setTitle('Sign up for Notes');
     
     $scope.email = '';
@@ -108,7 +113,7 @@ pages.controller('SignupCtrl', [
                     }else{
                       $mdDialog.hide();
                       
-                      $scope.$apply(function() {
+                      $scope.$apply(function(){
                         $location.path('/');
                       });
                     }

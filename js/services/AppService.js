@@ -13,12 +13,16 @@ app.service('AppService', [
     };
     
     this.title = 'Notes';
-    this.auth = 0;
+    this.auth = fb.getAuth();
     this.once = 0;
     this.reloading = 0;
     this.timeout = undefined;
     this.snapshot = undefined;
     this.userRef = undefined;
+    
+    this.setAuth = function(auth){
+      this.auth = auth;
+    }
     
     this.getAuth = function(){
       return this.auth;
@@ -285,87 +289,86 @@ app.service('AppService', [
     this.init = function(snapshot){
       var $app = this;
       
-      if(!this.auth){
-        this.auth = fb.getAuth();
-      }
+      if(this.auth){
       
-      if(!$app.once){
-        $app.userRef = fb.child($app.key());
-        
-        // Firebase Events
-        $app.userRef.on('child_added', function(snapshot){
-          $log.info('Firebase Added');
-
-          if(!$app.once){
-            $app.once = 1;
-            $app.init(snapshot);
-          }
-        });
-
-        $app.userRef.on('child_changed', function(snapshot){
-          $app.process(snapshot, 'Firebase Changed');
-        });
-
-        $app.userRef.on('child_removed', function(snapshot){
-          $app.process(snapshot, 'Firebase Removed');
-        });
-
-        $app.userRef.on('child_moved', function(snapshot){
-          $app.process(snapshot, 'Firebase Moved');
-        });
-      }
-
-      var state = 0;
-
-      // Set initial state
-      for(var prop in $app.config){
-        this[prop] = $app.config[prop];
-      }
-
-      // Load Firebase state
-      if(!state && snapshot){
-        var str = snapshot.val();
-        
-        if(str){
-          str = $app.decrypt(str);
+        if(!$app.once){
+          $app.userRef = fb.child($app.key());
           
-          if(/^\{/.test(str)){
-            state = JSON.parse(str);
+          // Firebase Events
+          $app.userRef.on('child_added', function(snapshot){
+            $log.info('Firebase Added');
+
+            if(!$app.once){
+              $app.once = 1;
+              $app.init(snapshot);
+            }
+          });
+
+          $app.userRef.on('child_changed', function(snapshot){
+            $app.process(snapshot, 'Firebase Changed');
+          });
+
+          $app.userRef.on('child_removed', function(snapshot){
+            $app.process(snapshot, 'Firebase Removed');
+          });
+
+          $app.userRef.on('child_moved', function(snapshot){
+            $app.process(snapshot, 'Firebase Moved');
+          });
+        }
+
+        var state = 0;
+
+        // Set initial state
+        for(var prop in $app.config){
+          this[prop] = $app.config[prop];
+        }
+
+        // Load Firebase state
+        if(!state && snapshot){
+          var str = snapshot.val();
+          
+          if(str){
+            str = $app.decrypt(str);
             
-            // Fixes note hash keys
-            for(var i=0; i<state.notes.length; i++){
-              delete state.notes[i]['$$hashKey'];
+            if(/^\{/.test(str)){
+              state = JSON.parse(str);
+              
+              // Fixes note hash keys
+              for(var i=0; i<state.notes.length; i++){
+                delete state.notes[i]['$$hashKey'];
+              }
             }
           }
         }
-      }
 
-      // Load LocalStorage state
-      if(!state){
-        state = localStorage.getItem('notes');
-
-        state = (/^(\{|\[)/.test(state)) ? JSON.parse(state) : 0;
-
-        // First time run
+        // Load LocalStorage state
         if(!state){
-          state = $app.config;
-          localStorage.setItem('notes', JSON.stringify(state));
-        }
-      }
-      
-      // Set current state
-      for(var prop in state){
-        if(!/^\$/.test(prop)){
-          $app[prop] = state[prop];
-        }
-      }
+          state = localStorage.getItem('notes');
 
-      // Fix note reference
-      if($app.note && $app.note.id){
-        $app.note = $app.get($app.note.id);
+          state = (/^(\{|\[)/.test(state)) ? JSON.parse(state) : 0;
+
+          // First time run
+          if(!state){
+            state = $app.config;
+            localStorage.setItem('notes', JSON.stringify(state));
+          }
+        }
+        
+        // Set current state
+        for(var prop in state){
+          if(!/^\$/.test(prop)){
+            $app[prop] = state[prop];
+          }
+        }
+
+        // Fix note reference
+        if($app.note && $app.note.id){
+          $app.note = $app.get($app.note.id);
+        }
+        
+        $rootScope.$emit('load', this.notes, this.note);
       }
-      
-      $rootScope.$emit('load', this.notes, this.note);
     };
     
   }

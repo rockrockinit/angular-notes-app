@@ -13,6 +13,11 @@ pages.controller('MainCtrl', [
   function($scope, $location, $rootScope, $log, $app){
     $log.info('MainCtrl');
     
+    // Auto Login Redirect
+    if(!$app.getAuth()){
+      $location.path('/login');
+    }
+    
     $app.setTitle('Notes');
     
     $scope.notes = [];

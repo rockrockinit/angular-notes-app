@@ -4,13 +4,13 @@
 
 A notes application built with **AngularJS** using **Firebase** for the backend. **[Angular Material](https://material.angularjs.org/)** (an implementeation Google's Material Design Specification) was used for the frontend user interface.
 
-### [View Demo &raquo;](http://www.edrodriguez.com/notes/?demo)
+### [View Demo &raquo;](http://www.edrodriguez.com/notes/#/signup)
 
 ##Overview
 
 This application works responsively on both mobile and desktop browsers. It encrypts user notes and [saves](https://www.firebase.com/docs/web/guide/saving-data.html) them them to reference objects using the Firebase API. Users are also managed through Firebase with their simple [Email & Password Authentication](https://www.firebase.com/docs/web/guide/login/password.html).
 
-[![Mobile Screenshot](http://www.edrodriguez.com/notes/img/readme/screenshot.png?v1)](http://www.edrodriguez.com/notes/?demo)
+[![Mobile Screenshot](http://www.edrodriguez.com/notes/img/readme/screenshot.png?v1)](http://www.edrodriguez.com/notes/#/signup)
 
 ### Tested Browsers
 
