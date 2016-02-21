@@ -1,0 +1,28 @@
+{
+  "name": "angular-notes-app",
+  "version": "0.0.1",
+  "description": "A web-based notes application built with AngularJS & Firebase",
+  "author": {
+    "name": "Ed Rodriguez",
+    "email": "ed@edrodriguez.com",
+    "url": "http://www.edrodriguez.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rockrockinit/angular-notes-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rockrockinit/angular-notes-app/issues"
+  },
+  "keywords": [
+    "notes"
+  ],
+  "private": true,
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-ng-annotate": "^1.1.0",
+    "gulp-uglify": "^1.5.2"
+  }
+}

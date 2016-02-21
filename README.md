@@ -48,10 +48,11 @@ Dependencies are managed via bower. Here is a list of the main dependencies:
 * [moment](http://momentjs.com/docs/) *2.11.1*
 * [underscore](http://underscorejs.org/) *1.8.3*
 
-Use the following command to install all dependancies:
+Use the following commands to install all dependancies & build sources:
 
 ```sh
 $ bower install
+$ gulp js
 ```
 
 ### License
