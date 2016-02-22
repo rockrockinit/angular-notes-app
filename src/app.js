@@ -5,7 +5,6 @@ var pages = angular.module('pages', []),
       'ngMdIcons',
       'ngMaterial',
       'ngMessages',
-      'material.svgAssetsCache',
       'ngRoute',
       'contenteditable'
     ]);

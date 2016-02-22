@@ -52,7 +52,7 @@ Use the following commands to install all dependancies & build sources:
 
 ```sh
 $ bower install
-$ gulp js
+$ gulp build
 ```
 
 ### License

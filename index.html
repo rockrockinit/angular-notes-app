@@ -17,8 +17,8 @@
   
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> 
-  <link rel="stylesheet prefetch" href="bower_components/angular-material/angular-material.min.css" />
-  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet prefetch" href="css/bower.min.css" />
+  <link rel="stylesheet" href="css/app.min.css" />
 </head>
 <body>
 <div id="loading" style="text-align:center;padding-top:50px">
@@ -62,7 +62,9 @@
         <md-toolbar class="md-whiteframe-3dp">
           <div class="md-toolbar-tools">
             <md-button ng-show="auth()" ng-click="toggleLeft()" class="md-icon-button" aria-label="Settings" hide-gt-md>
-              <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+              <md-icon>
+                <ng-md-icon icon="menu"></ng-md-icon>
+              </md-icon> 
             </md-button>
             <h2>
               <span>{{title}}</span>
@@ -77,7 +79,9 @@
             </md-button>
             
             <md-button ng-show="auth()" ng-click="toggleRight()" class="md-icon-button" aria-label="More">
-              <md-icon md-svg-icon="img/icons/more_vert.svg"></md-icon>
+              <md-icon>
+                <ng-md-icon icon="more_vert"></ng-md-icon>
+              </md-icon> 
             </md-button>
           </div>
         </md-toolbar>
@@ -124,25 +128,7 @@
   </section>
 </div>
 
-<script src="bower_components/crypto-js/build/rollups/aes.js"></script>
-<script src="bower_components/crypto-js/build/rollups/md5.js"></script>
-<script src="bower_components/firebase/firebase.js"></script>
-<script src="bower_components/moment/min/moment.min.js"></script>
-<script src="bower_components/underscore/underscore-min.js"></script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/angular/angular.min.js"></script>
-<script src="bower_components/angular-material-icons/angular-material-icons.min.js"></script>
-<script src="bower_components/angular-contenteditable/angular-contenteditable.js"></script>
-<script src="bower_components/angular-animate/angular-animate.min.js"></script>
-<script src="bower_components/angular-route/angular-route.min.js"></script>
-<script src="bower_components/angular-aria/angular-aria.min.js"></script>
-<script src="bower_components/angular-messages/angular-messages.min.js"></script>
-<script src="http://ngmaterial.assets.s3.amazonaws.com/svg-assets-cache.js"></script>
-<!--
-Copyright 2016 Google Inc. All Rights Reserved. 
-Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
--->
-<script src="bower_components/angular-material/angular-material.min.js"></script>
-<script src="app.js"></script>
+<script src="js/bower.min.js"></script>
+<script src="js/app.min.js"></script>
 </body>
 </html>

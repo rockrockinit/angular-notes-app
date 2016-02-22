@@ -16,7 +16,7 @@ app.controller('AppCtrl', [
     
     angular.element(document).ready(function (){
         document.getElementById('loading').style.display = 'none';
-        document.getElementById('notes-app').style.display = 'block';
+        document.getElementById('notes-app').style.display = 'flex';
     });
     
     // Watch for Application title changes
