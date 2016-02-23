@@ -124,3 +124,9 @@ md-dialog.dialog-loading md-dialog-content{
   background: #caf099;
   color: #777;
 }
+
+.login,
+.signup{
+  max-width: 400px;
+  margin: auto;
+}
