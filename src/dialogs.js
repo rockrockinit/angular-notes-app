@@ -2,7 +2,7 @@ function ErrorDialog($scope, $mdDialog, title, errors){
   $scope.title = title;
   $scope.errors = errors;
   
-  $scope.closeDialog = function(){
+  $scope.close = function(){
     $mdDialog.hide();
   }
 }
@@ -10,7 +10,7 @@ function ErrorDialog($scope, $mdDialog, title, errors){
 function LoadingDialog($scope, $mdDialog, title){
   $scope.title = title;
   
-  $scope.closeDialog = function(){
+  $scope.close = function(){
     $mdDialog.hide();
   }
 }

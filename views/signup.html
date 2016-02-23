@@ -1,7 +1,16 @@
 <div class="signup" layout-padding>
   <md-content class="autoScroll">
-    <div layout="row">
+    <div layout="row" style="max-width:400px;margin:auto;">
       <div flex>
+        <p class="center">Complete the form below to sign up...<br /><br /></p>
+        
+        <md-input-container class="md-block">
+          <input ng-model="first_name" type="text" placeholder="First Name" ng-required="true" />
+        </md-input-container>
+        
+        <md-input-container class="md-block">
+          <input ng-model="last_name" type="text" placeholder="Last Name" ng-required="true" />
+        </md-input-container>
         
         <md-input-container class="md-block">
           <md-icon>
@@ -16,11 +25,13 @@
           </md-icon>
           <input ng-model="password" type="password" placeholder="Password" ng-required="true" ng-keyup="signup($event)" />
         </md-input-container>
-    
-        <md-button class="md-raised md-primary" ng-click="signup($event)">Sign Up</md-button>&nbsp;&nbsp;
-        <a href="#/login">Login In</a>
+        
+        <div class="center">
+          <p><md-button class="md-raised md-primary" ng-click="signup($event)">Sign Up</md-button></p>
+          <p>Already have an account?</p>
+          <p><a href="#/login">Login In &raquo;</a></p>
+        </div>
       </div>
-    </div>
-    
+    </div>  
   </md-content>
 </div>

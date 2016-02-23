@@ -44,9 +44,9 @@ gulp.task('build', function () {
     .pipe(gulp.dest('js'));
     
   // bower css
-  gulp.src(['bower_components/angular-material/angular-material.css'])
+  gulp.src(['bower_components/angular-material/angular-material.min.css'])
     .pipe(concat('bower.min.css'))
-    .pipe(cssnano())
+    //.pipe(cssnano())
     .pipe(gulp.dest('css'));
     
   // bower fonts

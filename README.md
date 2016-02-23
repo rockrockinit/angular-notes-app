@@ -6,6 +6,8 @@ A notes application built with **AngularJS** using **Firebase** for the backend.
 
 <div style="clear:both"></div>
 
+&nbsp;
+
 ## Demos
 
 The following demos display how the application can be hosted on static servers without any databases.
