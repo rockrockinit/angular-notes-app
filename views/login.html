@@ -2,6 +2,7 @@
   <md-content class="autoScroll">
     <div layout="row">
       <div flex>
+        <p class="center">Log in below to access your saved notes...<br /><br /></p>
         
         <md-input-container class="md-block">
           <md-icon>
@@ -17,8 +18,11 @@
           <input ng-model="password" type="password" placeholder="Password" ng-required="true" ng-keyup="login($event)" />
         </md-input-container>
         
-        <md-button class="md-raised md-primary" ng-click="login($event)">Log In</md-button>&nbsp;&nbsp;
-        <a href="#/signup">Sign Up</a>
+        <div class="center">
+          <p><md-button class="md-raised md-primary" ng-click="login($event)">Log In</md-button></p>
+          <p>Don't have an account?</p>
+          <p><a href="#/signup">Sign Up &raquo;</a></p>
+        </div>
       </div>
     </div>
     
