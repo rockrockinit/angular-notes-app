@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  
+  <!-- Development -->
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
+  
+  <title>Notes</title>
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> 
+  <link rel="stylesheet prefetch" href="bower_components/angular-material/angular-material.min.css" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+<div id="loading" style="text-align:center;padding-top:50px">
+  <img src="img/loading.gif" width="134" height="100" />
+</div>
+
+<div id="notes-app" ng-app="NotesApp" ng-controller="AppCtrl" layout="column" style="height:100%;display:none;" ng-cloak="">
+  <section layout="row" flex="">
+    
+    <!-- leftnav -->
+    <md-sidenav ng-show="auth()" class="leftnav md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+      <md-toolbar class="md-theme-indigo">
+        <div class="md-toolbar-tools" style="padding:0px 15px;">
+          <md-icon style="margin-right:10px">
+            <ng-md-icon icon="search"></ng-md-icon>
+          </md-icon>
+          
+          <md-input-container class="md-block no-error search" md-no-float flex>
+            <input id="search" ng-model="search" type="text" placeholder="Search..." />
+          </md-input-container>
+          
+          <md-button ng-click="toggleLeft()" class="md-icon-button" aria-label="Close" hide-gt-md>
+            <md-icon>
+              <ng-md-icon icon="close"></ng-md-icon>
+            </md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      
+      <md-content ng-controller="LeftCtrl">
+        <div layout="column">
+          <md-button class="md-primary" ng-repeat="note in notes | orderBy: '-updated'" ng-click="show(note)" aria-label="{{note.name}}" ng-class="{selected: isSelected(note), 'cms-hidden': hide(note)}">
+            {{note.name}}
+          </md-button>
+        </div>
+      </md-content>
+    </md-sidenav>
+    
+    <!-- content -->
+    <div layout="column" style="width:100%" ng-cloak>
+        <md-toolbar class="md-whiteframe-3dp">
+          <div class="md-toolbar-tools">
+            <md-button ng-show="auth()" ng-click="toggleLeft()" class="md-icon-button" aria-label="Settings" hide-gt-md>
+              <md-icon>
+                <ng-md-icon icon="menu"></ng-md-icon>
+              </md-icon> 
+            </md-button>
+            <h2>
+              <span>{{title}}</span>
+            </h2>
+            
+            <span flex></span>
+            
+            <md-button ng-show="auth()" ng-click="add()">
+              <md-icon>
+                <ng-md-icon icon="note_add"></ng-md-icon>
+              </md-icon> <span hide show-gt-xs>New </span>Note
+            </md-button>
+            
+            <md-button ng-show="auth()" ng-click="toggleRight()" class="md-icon-button" aria-label="More">
+              <md-icon>
+                <ng-md-icon icon="more_vert"></ng-md-icon>
+              </md-icon> 
+            </md-button>
+          </div>
+        </md-toolbar>
+        
+        <div id="content" ng-view></div>
+    </div>
+    
+    <!-- rightnav -->
+    <md-sidenav class="rightnav md-sidenav-right md-whiteframe-z2" md-component-id="right">
+      <md-toolbar class="md-theme-light">
+        <div class="md-toolbar-tools">
+          <h1>Settings</h1>
+          
+          <span flex></span>
+          
+          <md-button ng-click="toggleRight()" class="md-icon-button" aria-label="Close">
+            <md-icon>
+              <ng-md-icon icon="close"></ng-md-icon>
+            </md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      
+      <md-content ng-controller="RightCtrl">
+        <div layout="column">
+          <md-button class="md-primary" ng-click="logout()">
+            <md-icon>
+              <ng-md-icon icon="logout"></ng-md-icon>
+            </md-icon>&nbsp;
+            Log Out
+          </md-button>
+          
+          <!-- <a href="export.html" class="md-button md-primary" download="notes.json"> -->
+          <a href="#/export" class="md-button md-primary" ng-click="close()">
+            <md-icon>
+              <ng-md-icon icon="file_download"></ng-md-icon>
+            </md-icon>&nbsp;
+            Export
+          </a>
+        </div>
+      </md-content>
+    </md-sidenav>
+
+  </section>
+</div>
+
+<script src="src/common.js"></script>
+<script src="bower_components/crypto-js/build/rollups/aes.js"></script>
+<script src="bower_components/crypto-js/build/rollups/md5.js"></script>
+<script src="bower_components/firebase/firebase.js"></script>
+<script src="bower_components/moment/min/moment.min.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="src/jquery.extended.js"></script>
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/angular-material-icons/angular-material-icons.min.js"></script>
+<script src="bower_components/angular-contenteditable/angular-contenteditable.js"></script>
+<script src="bower_components/angular-animate/angular-animate.min.js"></script>
+<script src="bower_components/angular-route/angular-route.min.js"></script>
+<script src="bower_components/angular-aria/angular-aria.min.js"></script>
+<script src="bower_components/angular-messages/angular-messages.min.js"></script>
+<script src="bower_components/angular-material/angular-material.min.js"></script>
+<script src="src/app.js"></script>
+<script src="src/services/AppService.js"></script>
+<script src="src/dialogs.js"></script>
+<script src="src/controllers/AppCtrl.js"></script>
+<script src="src/controllers/LeftCtrl.js"></script>
+<script src="src/controllers/RightCtrl.js"></script>
+<script src="src/controllers/MainCtrl.js"></script>
+<script src="src/controllers/LoginCtrl.js"></script>
+<script src="src/controllers/SignupCtrl.js"></script>
+<script src="src/controllers/ExportCtrl.js"></script>
+</body>
+</html>

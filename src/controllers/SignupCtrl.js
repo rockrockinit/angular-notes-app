@@ -34,6 +34,14 @@ pages.controller('SignupCtrl', [
       if(submit){
         var errors = [];
         
+        if(!$scope.first_name){
+          errors.push('First Name is required');
+        }
+        
+        if(!$scope.last_name){
+          errors.push('Last Name is required');
+        }
+        
         if(!$scope.email){
           errors.push('Email is required');
         }
