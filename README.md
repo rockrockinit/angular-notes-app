@@ -4,7 +4,17 @@
 
 A notes application built with **AngularJS** using **Firebase** for the backend. **[Angular Material](https://material.angularjs.org/)** (an implementeation Google's Material Design Specification) was used for the frontend user interface.
 
-### [View Demo &raquo;](http://www.edrodriguez.com/notes/#/signup)
+<div style="clear:both"></div>
+
+## Demos
+
+The following demos display how the application can be hosted on static servers without any databases.
+
+1. [View Demo &raquo;](http://www.edrodriguez.com/notes/#/signup)  
+_(Amazon S3 Hosting)_
+
+2. [View Demo &raquo;](http://rockrockinit.github.io/angular-notes-app/#signup)  
+_(GitHub Pages Hosting)_
 
 ##Overview
 
