@@ -44,6 +44,7 @@ pages.controller('LoginCtrl', [
               title: 'Log In Error',
               errors: errors
             },
+            parent: 'body',
             controller: ErrorDialog
           });
         }else{
@@ -56,6 +57,7 @@ pages.controller('LoginCtrl', [
             locals: {
               title: 'Logging In...'
             },
+            parent: 'body',
             controller: LoadingDialog,
             onComplete: function(){
               
@@ -79,15 +81,8 @@ pages.controller('LoginCtrl', [
                       title: 'Log In Failed',
                       errors: errors
                     },
+                    parent: 'body',
                     controller: ErrorDialog
-                  });
-                }else{
-                  $mdDialog.hide();
-                  
-                  $app.setAuth(auth);
-                  
-                  $scope.$apply(function(){
-                    $location.path('/');
                   });
                 }
               });

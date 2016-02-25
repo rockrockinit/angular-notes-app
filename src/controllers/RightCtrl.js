@@ -6,13 +6,11 @@
  */
 app.controller('RightCtrl', [
   '$scope',
-  '$timeout',
   '$mdSidenav',
+  '$mdDialog',
   '$log',
-  '$rootScope',
-  'fb',
   'AppService',
-  function($scope, $timeout, $mdSidenav, $log, $rootScope, fb, $app){
+  function($scope, $mdSidenav, $mdDialog, $log, $app){
     $log.info('RightCtrl');
     
     $scope.close = function(){
@@ -20,8 +18,18 @@ app.controller('RightCtrl', [
     };
     
     $scope.logout = function(){
-      $app.logout();
-      $mdSidenav('right').close();
+      $mdDialog.show({
+        templateUrl: 'views/dialogs/loading.html',
+        locals: {
+          title: 'Logging Out...'
+        },
+        parent: 'body',
+        controller: LoadingDialog,
+        onComplete: function(){
+          $app.logout();
+          $mdSidenav('right').close();
+        }
+      });
     }
   }
 ]);

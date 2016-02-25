@@ -1,14 +1,14 @@
-<div class="main" style="padding:10px">
-  <md-content layout="column" layout-align="top" layout-padding ng-model="note" ng-show="note" class="main">
-    <input type="hidden" ng-model="note.id" />
+<div class="main">
+  <md-content layout="column" layout-align="top" layout-padding ng-model="app.note" ng-show="app.note" class="main">
+    <input type="hidden" ng-model="app.note.id" />
     
     <div layout="row" layout-align="start top" style="padding:0px;">
       <div flex>
-        <input id="note-name" ng-model="note.name" ng-keyup="update()" placeholder="Note Name" />
+        <input id="note-name" ng-model="app.note.name" ng-keyup="app.update()" placeholder="Note Name" />
       </div>
       
       <div layout="row" layout-align="end">
-        <md-button ng-click="remove()" class="md-icon-button" aria-label="Delete">
+        <md-button ng-click="app.remove()" class="md-icon-button" aria-label="Delete">
           <md-icon>
             <ng-md-icon icon="delete"></ng-md-icon>
           </md-icon>
@@ -18,20 +18,20 @@
     
     <md-divider class="pad-bottom"></md-divider>
     
-    <span id="updated" ng-show="note.updated" class="pad-none" style="padding-bottom:20px;">
-      {{formatDate(note.updated, 'M/D/YY h:mma')}}
+    <span id="updated" ng-show="app.note.updated" class="pad-none" style="padding-bottom:20px;">
+      {{formatDate(app.note.updated, 'M/D/YY h:mma')}}
     </span>
     
     <div id="note"
       placeholder="..."
       contenteditable="true"
-      ng-model="note.note"
-      ng-keyup="update()"
+      ng-model="app.note.note"
+      ng-keyup="app.update()"
       strip-br="false"
       strip-tags="true"
       select-non-editable="true"
       class="pad-bottom"
-      ng-class="{highlight: isEmpty(note.note)}">
+      ng-class="{highlight: isEmpty(app.note.note)}">
     </div>
   </md-content>
 </div>

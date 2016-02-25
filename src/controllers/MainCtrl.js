@@ -20,10 +20,9 @@ pages.controller('MainCtrl', [
     
     $app.setTitle('Notes');
     
-    $scope.notes = [];
-    $scope.note = {};
+    this.app = $app;
     
-     /**
+    /**
     * Formats a mysql date
     *
     * @param string date THe mysql date
@@ -35,35 +34,11 @@ pages.controller('MainCtrl', [
     };
     
     /**
-     * Update a note
-     */
-    $scope.update = function(){
-      $app.update(this.note);
-    };
-    
-    /**
-     * Remove a note
-     */
-    $scope.remove = function(){
-      $app.remove(this.note);
-    };
-    
-    /**
      * Determines if a note's value is empty
      */
     $scope.isEmpty = function(val){
       val = (val) ? val.replace(/\<br\s*\/?\>/gi, '').trim() : '';
       return val === '';
     };
-    
-    /**
-     * Load a note
-     */
-    $rootScope.$on('load', function(event, notes, note){
-      $scope.notes = notes;
-      $scope.note = note;
-    });
-    
-    $app.init();
   }
 ]);
