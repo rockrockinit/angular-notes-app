@@ -171,10 +171,7 @@ app.service('AppService', [
             for(var i=0; i<$app.notes.length; i++){
               var note = $app.notes[i];
               if(note.id == state.note.id){
-                $log.log('Found!');
                 $app.note = note;
-              }else{
-                $log.log('Not Found!');
               }
             }
             
@@ -234,7 +231,8 @@ app.service('AppService', [
       
       $log.log(this.note);
       
-      var id = this.note.id,
+      var note = this.note,
+          id = note.id || 0,
           now = Date.now();
 
       // ADD NOTE
