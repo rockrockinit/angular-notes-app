@@ -200,28 +200,30 @@ app.service('AppService', [
     this.signup = function(){
       $scope = angular.element(document.getElementById('content')).scope();
       
-      this.account = {
-        first_name: $scope.first_name,
-        last_name: $scope.last_name,
-        email: $scope.email
-      };
+      if($scope){
+        this.account = {
+          first_name: $scope.first_name,
+          last_name: $scope.last_name,
+          email: $scope.email
+        };
 
-      var state = {
-          note: this.note,
-          notes: this.notes,
-          updated: Date.now()
-        },
-        str = JSON.stringify(state);
-         
-      // Firebase
-      str = this.encrypt(str);
-      
-      this.userRef.set({
-        account: this.account,
-        state: str
-      }, function(){
-        $location.path('/');
-      });
+        var state = {
+            note: this.note,
+            notes: this.notes,
+            updated: Date.now()
+          },
+          str = JSON.stringify(state);
+           
+        // Firebase
+        str = this.encrypt(str);
+        
+        this.userRef.set({
+          account: this.account,
+          state: str
+        }, function(){
+          $location.path('/');
+        });
+      }
     };
      
     /**
