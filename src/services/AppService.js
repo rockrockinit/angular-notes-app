@@ -228,9 +228,6 @@ app.service('AppService', [
      * Updates a note
      */
     this.update = function(){
-      
-      $log.log(this.note);
-      
       var note = this.note,
           id = note.id || 0,
           now = Date.now();
@@ -245,12 +242,12 @@ app.service('AppService', [
         this.notes.unshift(note);
         this.show(note);
         
-        $log.log('ADD NOTE...');
+        $log.log('Adding Note...');
       // UPDATE NOTE
       }else{
         this.note.updated = now;
         
-        $log.log('UPDATE NOTE...');
+        $log.log('Updating Note...');
       }
 
       this.updated = now;
@@ -319,8 +316,6 @@ app.service('AppService', [
      * @param object note The note
      */
     this.show = function(note){
-      $log.log(note);
-      
       var $app = this;
       this.note = note;
       //this.save();
@@ -420,10 +415,10 @@ app.service('AppService', [
     // Initial Page Load Authorization
     fb.onAuth(function(auth){
       if(auth){
-        $log.info('Logged In');
+        $log.info('Logged In...');
         $app.setAuth(auth);
       }else{
-        $log.warn('Logged Out!');
+        $log.warn('Logged Out...');
         if(!/^\/signup\/?/.test($location.path())){
           $location.path('/login');
         }
