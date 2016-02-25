@@ -162,23 +162,31 @@ app.service('AppService', [
           str = this.decrypt(str);
           
           if(/^\{/.test(str)){
-            state = JSON.parse(str);
-            
-            $app.note = {};
-            $app.notes = state.notes;
-            
-            // Set the instance of note from notes
-            for(var i=0; i<$app.notes.length; i++){
-              var note = $app.notes[i];
-              if(note.id == state.note.id){
-                $app.note = note;
-              }
+            try{
+                state = JSON.parse(str);
+            }catch(e){
+                $log.error(e);
             }
             
-            $timeout(function(){
-              $log.log('Emit: load');
-              $rootScope.$emit('load', $app.notes, $app.note);
-            }, 100);
+            if(typeof state === 'object'){
+              $app.note = {};
+              $app.notes = state.notes || [];
+              
+              // Set the instance of note from notes
+              if(state.note && state.note.id){
+                for(var i=0; i<$app.notes.length; i++){
+                  var note = $app.notes[i];
+                  if(note.id === state.note.id){
+                    $app.note = note;
+                  }
+                }
+              }
+              
+              $timeout(function(){
+                $log.log('Emit: load');
+                $rootScope.$emit('load', $app.notes, $app.note);
+              }, 100);
+            }
           }
         }
     };
