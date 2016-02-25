@@ -49,7 +49,7 @@ pages.controller('ExportCtrl', [
       notes = notes.replace(/\"\}/gi, '"\n}');
       notes = notes.replace(/^\"/mgi, '\t"');
       notes = notes.replace(/\":(\"|\d)/gi, '": $1');
-      notes = notes.replace(/\s*\"\$\$hashKey\":\s*\"object\:\d+\"\n/gi, '\n');
+      notes = notes.replace(/\s*\"\$\$hashKey\":\s*\"object\:\d+\",?\n/gi, '\n');
       notes = notes.replace(/\s*\"id\"\: \d+,\n/gi, '\n');
       
       notes = $sce.trustAsHtml(notes);

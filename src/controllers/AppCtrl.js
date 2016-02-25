@@ -14,6 +14,8 @@ app.controller('AppCtrl', [
   function($scope, $timeout, $mdSidenav, $log, $rootScope, $app){
     $log.info('AppCtrl');
     
+    this.app = $app;
+    
     angular.element(document).ready(function (){
         document.getElementById('loading').style.display = 'none';
         document.getElementById('notes-app').style.display = 'flex';
@@ -23,7 +25,6 @@ app.controller('AppCtrl', [
     $scope.app = $app;
     $scope.title = $app.title;
     $scope.$watch('app.getTitle()', function(title){
-      console.log(title);
       $scope.title = title;
     });
     

@@ -48,6 +48,8 @@ pages.controller('SignupCtrl', [
         
         if(!$scope.password){
           errors.push('Password is required');
+        }else if($scope.password.length < 8){
+          errors.push('Passwords are required a minimum of 8 characters');
         }
         
         if(errors.length){
@@ -58,6 +60,7 @@ pages.controller('SignupCtrl', [
               title: 'Sign Up Error',
               errors: errors
             },
+            parent: 'body',
             controller: ErrorDialog
           });
           
@@ -71,6 +74,7 @@ pages.controller('SignupCtrl', [
             locals: {
               title: 'Signing Up...'
             },
+            parent: 'body',
             controller: LoadingDialog,
             onComplete: function(){
               
@@ -92,6 +96,7 @@ pages.controller('SignupCtrl', [
                       title: 'Sign Up Failed',
                       errors: errors
                     },
+                    parent: 'body',
                     controller: ErrorDialog
                   });
                 }else{
@@ -116,13 +121,8 @@ pages.controller('SignupCtrl', [
                           title: 'Log In Failed',
                           errors: errors
                         },
+                        parent: 'body',
                         controller: ErrorDialog
-                      });
-                    }else{
-                      $mdDialog.hide();
-                      
-                      $scope.$apply(function(){
-                        $location.path('/');
                       });
                     }
                   });

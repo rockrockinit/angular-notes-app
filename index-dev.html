@@ -50,7 +50,7 @@
       
       <md-content ng-controller="LeftCtrl">
         <div layout="column">
-          <md-button class="md-primary" ng-repeat="note in notes | orderBy: '-updated'" ng-click="show(note)" aria-label="{{note.name}}" ng-class="{selected: isSelected(note), 'cms-hidden': hide(note)}">
+          <md-button class="md-primary" ng-repeat="note in app.notes | orderBy: '-updated'" ng-click="show(note)" aria-label="getName(note)" ng-class="{selected: isSelected(note), 'cms-hidden': hide(note)}">
             {{note.name}}
           </md-button>
         </div>
@@ -93,7 +93,7 @@
     <md-sidenav class="rightnav md-sidenav-right md-whiteframe-z2" md-component-id="right">
       <md-toolbar class="md-theme-light">
         <div class="md-toolbar-tools">
-          <h1>Settings</h1>
+          <h1>{{app.getName()}}</h1>
           
           <span flex></span>
           

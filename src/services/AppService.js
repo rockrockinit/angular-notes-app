@@ -3,20 +3,9 @@ app.service('AppService', [
   '$mdDialog',
   '$log',
   '$location',
+  '$timeout',
   'fb',
-  function($rootScope, $mdDialog, $log, $location, fb){
-    
-    // Initial Page Load Authorization
-    fb.onAuth(function(auth) {
-      if(auth){
-        $log.info('Logged In');
-      }else{
-        $log.warn('Logged Out!');
-        if(!/^\/signup\/?/.test($location.path())){
-          $location.path('/login');
-        }
-      }
-    });
+  function($rootScope, $mdDialog, $log, $location, $timeout, fb){
     
     // @var object config The default app config
     this.config = {
@@ -25,43 +14,24 @@ app.service('AppService', [
       updated: Date.now()
     };
     
-    this.title = 'Notes';
-    this.auth = fb.getAuth();
-    this.once = 0;
-    this.reloading = 0;
-    this.timeout = undefined;
-    this.snapshot = undefined;
-    this.userRef = undefined;
-    
-    this.setAuth = function(auth){
-      this.auth = auth;
-    }
-    
-    this.getAuth = function(){
-      return this.auth;
-    }
-    
-    this.setTitle = function(title){
-      this.title = title;
-    };
-    
-    this.getTitle = function(){
-      return this.title;
-    };
-    
-    this.logout = function(){
+    this.reset = function(){
       this.title = 'Notes';
       this.auth = 0;
-      this.once = 0;
       this.reloading = 0;
       this.timeout = undefined;
       this.snapshot = undefined;
       this.userRef = undefined;
-      this.auth = undefined;
+      this.accountRef = undefined;
+      this.userRef = undefined;
+      this.stateRef = undefined;
+      this.note = undefined;
       this.notes = [];
-      this.note = {};
+      this.account = {};
+    };
+    
+    this.logout = function(){
+      this.reset();
       $rootScope.$emit('load', this.notes, this.note);
-      
       fb.unauth();
     };
     
@@ -95,15 +65,25 @@ app.service('AppService', [
     };
     
     /**
-     * Process Firebase snapshot events
+     * Handle Firebase snapshot events
      *
      * @param object snapshot The Firebase snapshot
-     * @param string msg The event message
+     * @param string action The event action
      */
-    this.process = function(snapshot, msg){
-      $log.info(msg);
+    this.handle = function(snapshot, action){
       this.snapshot = snapshot;
-
+      
+      $log.info('Firebase '+action+': '+snapshot.key());
+      
+      // Initial state load
+      if(action === 'added'){
+        if(snapshot.key() === 'state'){
+          this.setState(snapshot.val());
+        }else if(snapshot.key() === 'account'){
+          this.account = snapshot.val();
+        }
+      }
+      
       if(0 && !this.reloading){
         clearTimeout(this.timeout);
 
@@ -116,11 +96,143 @@ app.service('AppService', [
       }
     };
     
+    // SETTERS & GETTERS ------------------------------------
+    
+    this.setAuth = function(auth){
+      $log.log('setAuth');
+      
+      var $app = this;
+      
+      $app.reset();
+      
+      $app.auth = auth;
+      
+      $app.userRef = fb.child($app.key());
+      
+      // Firebase Events
+      $app.userRef.on('child_added', function(snapshot){
+        $app.handle(snapshot, 'added');
+      });
+      
+      $app.userRef.on('child_changed', function(snapshot){
+        $app.handle(snapshot, 'changed');
+      });
+      
+      $app.userRef.on('child_removed', function(snapshot){
+        $app.handle(snapshot, 'removed');
+      });
+      
+      $app.userRef.on('child_moved', function(snapshot){
+        $app.handle(snapshot, 'moved');
+      });
+      
+      $app.stateRef = $app.userRef.child('state'),
+      $app.accountRef = $app.userRef.child('account');
+      
+      // Initial signups
+      if(/^\/signup\/?/.test($location.path())){
+        $app.signup();
+      }else if(/^\/login\/?/.test($location.path())){
+        $location.path('/');
+      }
+    }
+    
+    this.getAuth = function(){
+      return this.auth;
+    }
+    
+    this.setTitle = function(title){
+      this.title = title;
+      $mdDialog.hide();
+    };
+    
+    this.getTitle = function(){
+      return this.title;
+    };
+    
+    /**
+     * Sets the current state
+     */
+    this.setState = function(str){
+        $log.log('setState');
+      
+        var $app = this;
+        
+        if(str){
+          str = this.decrypt(str);
+          
+          if(/^\{/.test(str)){
+            state = JSON.parse(str);
+            
+            $app.note = {};
+            $app.notes = state.notes;
+            
+            // Set the instance of note from notes
+            for(var i=0; i<$app.notes.length; i++){
+              var note = $app.notes[i];
+              if(note.id == state.note.id){
+                $log.log('Found!');
+                $app.note = note;
+              }else{
+                $log.log('Not Found!');
+              }
+            }
+            
+            $timeout(function(){
+              $log.log('Emit: load');
+              $rootScope.$emit('load', $app.notes, $app.note);
+            }, 100);
+          }
+        }
+    };
+    
+    /**
+     * Gets the account name by concat first and last name
+     *
+     * @return string The account name
+     */
+    this.getName = function(){
+      return (this.account && this.account.first_name) ? this.account.first_name + ' ' + this.account.last_name : '';
+    }
+    
+    // APP LOGIC ------------------------------------
+    
+    /**
+     * Completes signup
+     */
+    this.signup = function(){
+      $scope = angular.element(document.getElementById('content')).scope();
+      
+      this.account = {
+        first_name: $scope.first_name,
+        last_name: $scope.last_name,
+        email: $scope.email
+      };
+
+      var state = {
+          note: this.note,
+          notes: this.notes,
+          updated: Date.now()
+        },
+        str = JSON.stringify(state);
+         
+      // Firebase
+      str = this.encrypt(str);
+      
+      this.userRef.set({
+        account: this.account,
+        state: str
+      }, function(){
+        $location.path('/');
+      });
+    };
+     
     /**
      * Updates a note
      */
-    this.update = function(note){
-      this.note = note;
+    this.update = function(){
+      
+      $log.log(this.note);
       
       var id = this.note.id,
           now = Date.now();
@@ -134,10 +246,13 @@ app.service('AppService', [
         note.updated = now;
         this.notes.unshift(note);
         this.show(note);
-
+        
+        $log.log('ADD NOTE...');
       // UPDATE NOTE
       }else{
         this.note.updated = now;
+        
+        $log.log('UPDATE NOTE...');
       }
 
       this.updated = now;
@@ -194,6 +309,7 @@ app.service('AppService', [
                 onCancel: function(){}
               }
             },
+            parent: 'body',
             controller: ConfirmDialog
           });
       }
@@ -205,9 +321,16 @@ app.service('AppService', [
      * @param object note The note
      */
     this.show = function(note){
+      $log.log(note);
+      
+      var $app = this;
       this.note = note;
-      this.save();
-      $rootScope.$emit('load', this.notes, this.note);
+      //this.save();
+      
+      // Timeout used here because the main view needs time to load
+      $timeout(function(){
+        $rootScope.$emit('load', $app.notes, $app.note);
+      }, 100);
     };
     
     /**
@@ -215,20 +338,18 @@ app.service('AppService', [
      */
     this.save = function(){
       var state = {};
-
+      
       // Build runtime state
       for(var prop in this.config){
         state[prop] = this[prop];
       }
       
       var str = JSON.stringify(state);
-
-      // LocalStorage
-      localStorage.setItem('notes', str);
-
+      
       // Firebase
       str = this.encrypt(str);
-      this.userRef.set({state: str});
+      this.stateRef.set(str);
+      this.accountRef.set(this.account);
     };
     
     /**
@@ -296,93 +417,19 @@ app.service('AppService', [
       }
     };
     
-    /**
-     * Loads the application state from local storage
-     */
-    this.init = function(snapshot){
-      var $app = this;
-      
-      if(this.auth){
-      
-        if(!$app.once){
-          $app.userRef = fb.child($app.key());
-          
-          // Firebase Events
-          $app.userRef.on('child_added', function(snapshot){
-            $log.info('Firebase Added');
-
-            if(!$app.once){
-              $app.once = 1;
-              $app.init(snapshot);
-            }
-          });
-
-          $app.userRef.on('child_changed', function(snapshot){
-            $app.process(snapshot, 'Firebase Changed');
-          });
-
-          $app.userRef.on('child_removed', function(snapshot){
-            $app.process(snapshot, 'Firebase Removed');
-          });
-
-          $app.userRef.on('child_moved', function(snapshot){
-            $app.process(snapshot, 'Firebase Moved');
-          });
-        }
-
-        var state = 0;
-
-        // Set initial state
-        for(var prop in $app.config){
-          this[prop] = $app.config[prop];
-        }
-
-        // Load Firebase state
-        if(!state && snapshot){
-          var str = snapshot.val();
-          
-          if(str){
-            str = $app.decrypt(str);
-            
-            if(/^\{/.test(str)){
-              state = JSON.parse(str);
-              
-              // Fixes note hash keys
-              for(var i=0; i<state.notes.length; i++){
-                delete state.notes[i]['$$hashKey'];
-              }
-            }
-          }
-        }
-
-        // Load LocalStorage state
-        if(!state){
-          state = localStorage.getItem('notes');
-
-          state = (/^(\{|\[)/.test(state)) ? JSON.parse(state) : 0;
-
-          // First time run
-          if(!state){
-            state = $app.config;
-            localStorage.setItem('notes', JSON.stringify(state));
-          }
-        }
-        
-        // Set current state
-        for(var prop in state){
-          if(!/^\$/.test(prop)){
-            $app[prop] = state[prop];
-          }
-        }
-
-        // Fix note reference
-        if($app.note && $app.note.id){
-          $app.note = $app.get($app.note.id);
-        }
-        
-        $rootScope.$emit('load', this.notes, this.note);
-      }
-    };
+    var $app = this;
     
+    // Initial Page Load Authorization
+    fb.onAuth(function(auth){
+      if(auth){
+        $log.info('Logged In');
+        $app.setAuth(auth);
+      }else{
+        $log.warn('Logged Out!');
+        if(!/^\/signup\/?/.test($location.path())){
+          $location.path('/login');
+        }
+      }
+    });
   }
 ]);

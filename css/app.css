@@ -130,3 +130,7 @@ md-dialog.dialog-loading md-dialog-content{
   max-width: 400px;
   margin: auto;
 }
+
+.main{
+  padding: 10px;
+}
