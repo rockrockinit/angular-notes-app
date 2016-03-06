@@ -349,6 +349,26 @@ app.service('AppService', [
       
       var str = JSON.stringify(state);
       
+      // Clean state and remove any conflicting $$hashKey
+      state = JSON.parse(str);
+      if(state.notes){
+        for(var i=0; i<state.notes.length; i++){
+          var note = state.notes[i];
+          delete note['$$hashKey'];
+        }
+      }
+      
+      if(state.note){
+        delete state.note['$$hashKey'];
+      }
+      
+      if(0){
+        $log.log('CLEAN STATE...');
+        $log.log(state.notes);
+      }
+      
+      str = JSON.stringify(state);
+      
       // Firebase
       str = this.encrypt(str);
       this.stateRef.set(str);
