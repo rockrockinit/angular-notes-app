@@ -27,11 +27,12 @@ app.service('AppService', [
       this.note = undefined;
       this.notes = [];
       this.account = {};
+      
+      $rootScope.$emit('load', this.notes, this.note);
     };
     
     this.logout = function(){
       this.reset();
-      $rootScope.$emit('load', this.notes, this.note);
       fb.unauth();
     };
     
@@ -449,6 +450,7 @@ app.service('AppService', [
         $app.setAuth(auth);
       }else{
         $log.warn('Logged Out...');
+        $app.reset();
         if(!/^\/signup\/?/.test($location.path())){
           $location.path('/login');
         }
