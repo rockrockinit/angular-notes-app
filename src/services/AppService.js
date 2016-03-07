@@ -72,28 +72,30 @@ app.service('AppService', [
      * @param string action The event action
      */
     this.handle = function(snapshot, action){
-      this.snapshot = snapshot;
-      
-      $log.info('Firebase '+action+': '+snapshot.key());
-      
-      // Initial state load
-      if(action === 'added'){
-        if(snapshot.key() === 'state'){
-          this.setState(snapshot.val());
-        }else if(snapshot.key() === 'account'){
-          this.account = snapshot.val();
+      if(this.getAuth()){
+        this.snapshot = snapshot;
+        
+        $log.info('Firebase '+action+': '+snapshot.key());
+        
+        // Initial state load
+        if(action === 'added'){
+          if(snapshot.key() === 'state'){
+            this.setState(snapshot.val());
+          }else if(snapshot.key() === 'account'){
+            this.account = snapshot.val();
+          }
         }
-      }
-      
-      if(0 && !this.reloading){
-        clearTimeout(this.timeout);
-
-        this.timeout = setTimeout(function(){
-          $scope = angular.element(document.getElementById('content')).scope();
-          $scope.$apply(function(){
-            $scope.reload();
-          });
-        }, 1000);
+        
+        if(0 && !this.reloading){
+          clearTimeout(this.timeout);
+          
+          this.timeout = setTimeout(function(){
+            $scope = angular.element(document.getElementById('content')).scope();
+            $scope.$apply(function(){
+              $scope.reload();
+            });
+          }, 1000);
+        }
       }
     };
     
@@ -159,7 +161,7 @@ app.service('AppService', [
       
         var $app = this;
         
-        if(str){
+        if($app.getAuth() && str){
           str = this.decrypt(str);
           
           if(/^\{/.test(str)){
@@ -215,7 +217,7 @@ app.service('AppService', [
           last_name: $scope.last_name,
           email: $scope.email
         };
-
+        
         var state = {
             note: this.note,
             notes: this.notes,
@@ -384,53 +386,53 @@ app.service('AppService', [
       if(this.snapshot && !this.reloading){
         this.reloading = true;
         var state, str = this.snapshot.val();
-
+        
         str = this.decrypt(str);
-
+        
         if(/^\{/.test(str)){
           state = JSON.parse(str);
-
+          
           if(state.updated > this.updated){
-
+            
             var $modal = $('#modal-confirm');
             $('.modal-title', $modal).text('Reload?');
             $('.modal-body', $modal).html('<p>A note was updated & saved remotely.<br class="hidden-xs" />\
             Do you want to reload your local notes?</p>');
-
+            
             $modal.off('hidden.bs.modal').on('hidden.bs.modal', function(e){
               $app.reloading = false;
             });
-
+            
             $('.btn-yes', $modal).off('click').on('click', function(e){
               $modal.modal('hide');
-
+              
               str = $app.snapshot.val();
-
+              
               str = $app.decrypt(str);
-
+              
               state = JSON.parse(str);
-
+              
               // Fixes note hash keys
               for(var i=0; i<state.notes.length; i++){
                 delete state.notes[i]['$$hashKey'];
               }
-
+              
               this.notes = state.notes;
-
+              
               // Fix note reference
               if(this.note && this.note.id){
                 this.note = $scope.get(this.note.id);
               }
-
+              
               this.$apply();
-
+              
               $app.reloading = false;
             });
-
+            
             $('.btn-no', $modal).off('click').on('click', function(e){
               $app.reloading = false;
             });
-
+            
             $modal.modal();
           }else{
             $app.reloading = false;
@@ -451,8 +453,12 @@ app.service('AppService', [
       }else{
         $log.warn('Logged Out...');
         $app.reset();
+        
         if(!/^\/signup\/?/.test($location.path())){
-          $location.path('/login');
+          
+          $timeout(function(){
+            $location.path('/login');
+          }, 100);
         }
       }
     });
