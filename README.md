@@ -63,6 +63,7 @@ Dependencies are managed via bower. Here is a list of the main dependencies:
 Use the following commands to install all dependancies & build sources:
 
 ```sh
+$ npm install
 $ bower install
 $ gulp build
 ```
